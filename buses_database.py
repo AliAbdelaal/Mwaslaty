@@ -8,7 +8,7 @@
 import pymysql
 import csv
 
-db = pymysql.connect("localhost", "root", "ali10395", "Mwaslaty", charset='utf8')
+db = pymysql.connect("localhost", "username", "password", "Mwaslaty", charset='utf8')
 # prepare a cursor object using cursor() method
 cursor = db.cursor()
 file = open('buses.csv')
