@@ -40,8 +40,8 @@ function print_bus($bus)
 
 
 $servername = "localhost";
-$username = "root";
-$password = "ali10395";
+$username = "username";
+$password = "password";
 $database = "Mwaslaty";
 
 
