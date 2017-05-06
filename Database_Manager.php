@@ -126,10 +126,7 @@ class Database_Manager
             return FALSE;
         }
         //now update the data
-        $sql = "UPDATE Stations SET (name, longitude, latitude, metro, bus) 
-                              VALUES ('{$station->getName()}','{$station->getLongitude()}','{$station->getlatitude()}',
-                                      '{$station->getMetroOrNot()}','{$station->getBusOrnot()}')";
-        $this->conn->query($sql);
+        
         return TRUE ;
     }
 
