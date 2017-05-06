@@ -7,8 +7,8 @@
  * Time: 10:28 PM
  */
 
-require ("Station.php");
-require ("Bus.php");
+require("Station.php");
+require("Bus.php");
 class Database_Manager
 {
     private $conn = NULL;
@@ -126,7 +126,7 @@ class Database_Manager
             return FALSE;
         }
         //now update the data
-        
+
         return TRUE ;
     }
 
