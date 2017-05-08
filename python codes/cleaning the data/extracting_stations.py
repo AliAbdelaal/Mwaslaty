@@ -6,7 +6,7 @@
 """
 import csv
 
-the_file = open('buses.csv')
+the_file = open('../bus_and_stations_updated.csv')
 reader = csv.reader(the_file)
 stations = list()
 
@@ -25,7 +25,7 @@ stations.sort()
 print(stations)
 print('number of stations : ', len(stations))
 the_file.close()
-stations_file = open("stations.csv", 'w+')
+stations_file = open("stations_updated.csv", 'w+')
 
 for station in stations:
     stations_file.write(station+'\n')

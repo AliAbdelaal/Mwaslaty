@@ -1,57 +1,70 @@
-# This Python file uses the following encoding: utf-8
+# this code to find the matched stations
 
 
-"""
-    this code to build the bus station relational table
-"""
-
-import pymysql
+from difflib import SequenceMatcher
 import csv
 
-db = pymysql.connect("localhost", "username", "password", "Mwaslaty", charset='utf8')
-# prepare a cursor object using cursor() method
-cursor = db.cursor()
-sql = "CREATE TABLE IF NOT EXISTS Bus_stations(" \
-      "bus_id INTEGER ,station_id INTEGER ,PRIMARY KEY (bus_id,station_id)) DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;"
-
-try:
-    cursor.execute(sql)
-    print("table created successfully")
-except Exception as ex:
-    print("table was not created",ex)
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 
-# getting the buses data
-file = open("buses.csv")
-reader = csv.reader(file)
 
-try:
-    for row in reader:
-        if len(row) < 1:
+# the source file of the buses and it's stations
+
+source_file = open("bus_and_stations.csv","r")
+accepted_file = open("accepted.txt","r+")
+rejected_file = open("rejected.txt","r+")
+lines = source_file.readlines()
+lines = [x.strip().split(",") for x in lines]
+
+accepted = [(line[:-1].split(",")[0],line[:-1].split(",")[1]) for line in accepted_file.readlines()]
+rejected = [(line[:-1].split(",")[0],line[:-1].split(",")[1]) for line in rejected_file.readlines()]
+
+for (line_index,line) in enumerate(lines):
+    for (sub_index,word) in enumerate(line):
+        if sub_index == 0:
             continue
-        sql = "SELECT id FROM Buses WHERE name= '%s'" % row[0]
-        cursor.execute(sql)
-        bus_id = cursor.fetchall()[0][0]
-        stations_id = list()
-        for station in row[1:]:
-            sql = "SELECT id FROM Stations WHERE name ='%s'" % station.strip()
-            cursor.execute(sql)
-            fetched = cursor.fetchall()
-            if len(fetched) > 0:
-                station_id = fetched[0][0]
-                stations_id.append(station_id)
-        for station in stations_id:
-            try:
-                sql = "INSERT INTO Bus_stations(bus_id,station_id) VALUES (%d, %d)"%(bus_id, station)
-                print(sql)
-                cursor.execute(sql)
-            except Exception as ex:
-                print("somthing here happend !",ex)
-        db.commit()
-except Exception as ex:
-    print("error :",ex)
+        else:
+            for (sub_line_index,sub_line) in enumerate(lines[line_index+1:]):
+                for (sub_word_index,sub_word) in enumerate(sub_line):
+                    if sub_word_index == 0:
+                        continue
+                    ratio = similar(word, sub_word)
+                    if ratio > 0.9:
+                        # print (sub_word,"was changed to ",word)
+                        lines[sub_line_index+line_index+1][sub_word_index] = word
+                    elif ratio > 0.75:
+                        if (word,sub_word) in accepted:
+                            # print(sub_word, "was changed to ", word, "this was learned !")
+                            lines[sub_line_index + line_index + 1][sub_word_index] = word
+                        elif (word,sub_word) in rejected:
+                            pass
+                        else:
+                            print("confussion here, help please!!")
+                            print(sub_word,"and",word,"merge ? :",end="")
+                            x = input("")
+                            if x.lower() == 'y':
+                                # print(sub_word, "was changed to ", word)
+                                lines[sub_line_index + line_index + 1][sub_word_index] = word
+                                learned = sub_word
+                                accepted.append((word,sub_word))
+                                accepted_file.write(word+","+sub_word+"\n")
+                                accepted.append((sub_word,word))
+                                accepted_file.write(sub_word+","+word+"\n")
+                            else:
+                                learn_to_reject = sub_word
+                                rejected.append((word,sub_word))
+                                rejected_file.write(word+","+sub_word+"\n")
+                                rejected.append((sub_word,word))
+                                rejected_file.write(sub_word+","+word+"\n")
+    print("done with bus",line_index, "out of ",len(lines))
 
-
-
-cursor.close()
-file.close()
+output = open("bus_and_stations_updated.csv","w+")
+for line in lines:
+    myString = ",".join(line)
+    myString += "\n"
+    output.write(myString)
+output.close()
+accepted_file.close()
+rejected_file.close()
+source_file.close()
