@@ -59,7 +59,7 @@ if ($conn->connect_error) {
 echo nl2br("Connected successfully \n");
 $manager = new Database_Manager($conn);
 
-$station = $manager->get_station(90);
+$station = $manager->get_station(172);
 
 if($station)
 {
