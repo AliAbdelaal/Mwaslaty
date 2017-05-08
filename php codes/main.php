@@ -18,8 +18,8 @@ function print_station($station)
     echo 'ID = '.$station->getId();
     echo ',longitude'.$station->getLongitude();
     echo ',latitude'.$station->getLatitude();
-    echo ',metro ? ='.($station->getMetroOrnot()==TRUE?'yes':'no');
-    echo ',bus ? ='.($station->getBusOrnot()==TRUE?'yes':'no');
+    echo ',metro ? ='.($station->getMetro()==TRUE?'yes':'no');
+    echo ',bus ? ='.($station->getBus()==TRUE?'yes':'no');
     echo nl2br("\n\t<b>associated Buses</b>:\n");
 
 }

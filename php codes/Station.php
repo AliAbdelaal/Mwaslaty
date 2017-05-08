@@ -11,8 +11,10 @@ class Station
     private $name = NULL;
     private $longitude = NULL;
     private $latitude = NULL;
-    private $metro_or_not = NULL;
-    private $bus_or_not = NULL;
+    private $metro = NULL;
+    private $bus = NULL;
+    private $centric = NULL ;
+    private $bus_count = NULL ;
     private $id = NULL;
 
 
@@ -85,39 +87,56 @@ class Station
     /**
      * @return mixed
      */
-    public function getMetroOrnot()
+    public function getMetro()
     {
-        return $this->metro_or_not;
+        return $this->metro;
     }
 
     /**
-     * @param mixed $metro_or_not
+     * @param mixed $metro
      */
-    public function setMetroOrnot($metro_or_not)
+    public function setMetro($metro)
     {
-        $this->metro_or_not = $metro_or_not==1? TRUE : FALSE;
+        $this->metro = $metro==1? TRUE : FALSE;
     }
 
     /**
      * @return mixed
      */
-    public function getBusOrnot()
+    public function getBus()
     {
-        return $this->bus_or_not;
+        return $this->bus;
     }
 
     /**
-     * @param mixed $bus_or_not
+     * @param mixed $bus
      */
-    public function setBusOrnot($bus_or_not)
+    public function setBus($bus)
     {
-        $this->bus_or_not = $bus_or_not==1? TRUE : FALSE;
+        $this->bus = $bus==1? TRUE : FALSE;
+    }
+
+
+    /**
+     * @return null
+     */
+    public function getBusCount()
+    {
+        return $this->bus_count;
+    }
+
+    /**
+     * @param null $bus_count
+     */
+    public function setBusCount($bus_count)
+    {
+        $this->bus_count = $bus_count;
     }
 
     public function checkValid()
     {
         if($this->name==NULL || $this->longitude == NULL || $this->latitude == NULL
-            ||$this->metro_or_not == NULL || $this->bus_or_not == NULL )
+            ||$this->metro == NULL || $this->bus == NULL )
         {
             return FALSE ;
         }

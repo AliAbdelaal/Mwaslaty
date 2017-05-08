@@ -60,8 +60,8 @@ class Database_Manager
                 $station->setName($value['name']);
                 $station->setLongitude($value['longitude']);
                 $station->setLatitude($value['latitude']);
-                $station->setMetroOrnot($value['metro']);
-                $station->setBusOrnot($value['bus']);
+                $station->setMetro($value['metro']);
+                $station->setBus($value['bus']);
 
                 return $station;
             }

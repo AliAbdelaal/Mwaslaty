@@ -17,7 +17,7 @@ lines = file.readlines()
 # create the station if not exit
 
 sql = "CREATE TABLE IF NOT EXISTS Stations(" \
-      "ID INTEGER UNIQUE AUTO_INCREMENT, name VARCHAR(50) UNIQUE NOT NULL , longitude DOUBLE , latitude DOUBLE , metro BIT, bus BIT,centeric BIT,buses_count INTEGER , PRIMARY KEY (ID)) DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;"
+      "ID INTEGER UNIQUE AUTO_INCREMENT, name VARCHAR(50) UNIQUE NOT NULL , longitude DOUBLE , latitude DOUBLE , metro BIT, bus BIT,centric BIT,buses_count INTEGER , PRIMARY KEY (ID)) DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;"
 
 try:
     cursor.execute(sql)
@@ -43,7 +43,7 @@ for row in lines:
             print("this couldn't be done because of ",ex)
             pass
         if not found:
-            sql = "INSERT INTO Stations(name,longitude,latitude,metro,bus,centeric,buses_count) VALUE('%s',%f,%f,%d,%d,%d,%d)" % \
+            sql = "INSERT INTO Stations(name,longitude,latitude,metro,bus,centric,buses_count) VALUE('%s',%f,%f,%d,%d,%d,%d)" % \
                   (elements[0], float(elements[2]), float(elements[1]), 1, 0, 0, 0)
             print(sql)
             try:
