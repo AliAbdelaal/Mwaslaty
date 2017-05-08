@@ -17,6 +17,23 @@ class Station
     private $bus_count = NULL ;
     private $id = NULL;
 
+    /**
+     * @return null
+     */
+    public function getCentric()
+    {
+        return $this->centric;
+    }
+
+
+    /**
+     * @param $centric
+     */
+    public function setCentric($centric)
+    {
+        $this->centric = $centric == 1? TRUE : FALSE;
+    }
+
 
 
     /**
@@ -136,7 +153,8 @@ class Station
     public function checkValid()
     {
         if($this->name==NULL || $this->longitude == NULL || $this->latitude == NULL
-            ||$this->metro == NULL || $this->bus == NULL )
+            || $this->metro == NULL || $this->bus == NULL || $this->bus_count == NULL
+            || $this->centric == NULL)
         {
             return FALSE ;
         }
