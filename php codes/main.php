@@ -18,9 +18,9 @@ function print_station($station)
     echo 'ID = '.$station->getId();
     echo ',longitude'.$station->getLongitude();
     echo ',latitude'.$station->getLatitude();
-    echo ',metro ? ='.($station->getMetro()==TRUE?'yes':'no');
-    echo ',bus ? ='.($station->getBus()==TRUE?'yes':'no');
-    echo nl2br("\n\t<b>associated Buses</b>:\n");
+    echo ',metro='.($station->getMetro()==TRUE?'yes':'no');
+    echo ',bus='.($station->getBus()==TRUE?'yes':'no');
+    echo nl2br("\n");
 
 }
 
@@ -33,7 +33,7 @@ function print_bus($bus)
     echo nl2br("\n");
     echo 'ID = '.$bus->getId();
     echo ', cost = '.$bus->getCost();
-    echo nl2br("\n\t<b>associated stations</b>:\n");
+    echo nl2br("\n");
 
 
 }
@@ -59,17 +59,14 @@ if ($conn->connect_error) {
 echo nl2br("Connected successfully \n");
 $manager = new Database_Manager($conn);
 
-$station = $manager->get_station(172);
+$stations = $manager->get_centric_stations();
 
-if($station)
+if($stations)
 {
-    print_station($station);
-    $buses = $manager->get_associate_buses($station);
-    foreach ($buses as $bus)
+    foreach ($stations as $station)
     {
-        echo nl2br("bus : ".$bus->getName()."\n");
+        print_station($station);
     }
-    echo nl2br("\n-------------------------------\n");
 }
 else{
     echo nl2br("Shit happens\n");
