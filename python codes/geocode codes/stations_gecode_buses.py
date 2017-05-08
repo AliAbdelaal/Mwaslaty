@@ -19,8 +19,8 @@ scontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
 # python 2
 # scontext = None
 
-file = open("stations.csv")
-output_file = open("stations_location_buses.csv", "w+")
+file = open("../../clean data/v1.2/stations_updated.csv")
+output_file = open("stations_location_buses_updated_v1.2.csv", "w+")
 lines = file.readlines()
 file.close()
 counter = 0

@@ -19,9 +19,9 @@ scontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
 # python 2
 # scontext = None
 
-file = open("metro_stations.txt")
-output_file = open("stations_location_metro.csv", "w+")
-buses_stations = open("stations.csv")
+file = open("../../clean data/metro_stations.txt")
+output_file = open("stations_location_metro_updated_v1.2.csv", "w+")
+buses_stations = open("../../clean data/v1.2/stations_updated.csv")
 founded_stations = buses_stations.readlines()
 buses_stations.close()
 lines = file.readlines()

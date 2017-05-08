@@ -22,7 +22,7 @@ except Exception as ex:
 
 
 # getting the buses data
-file = open("buses.csv")
+file = open("../../clean data/v1.2/bus_and_stations.csv")
 reader = csv.reader(file)
 
 try:

@@ -11,7 +11,7 @@ import csv
 db = pymysql.connect("localhost", "username", "password", "Mwaslaty", charset='utf8')
 # prepare a cursor object using cursor() method
 cursor = db.cursor()
-file = open('buses.csv')
+file = open('../../clean data/v1.2/bus_and_stations.csv')
 reader = csv.reader(file)
 
 sql = "CREATE TABLE IF NOT EXISTS Buses(" \
