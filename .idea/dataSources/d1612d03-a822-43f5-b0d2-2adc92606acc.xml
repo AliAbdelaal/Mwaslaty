@@ -93,24 +93,32 @@ station_id</ColNames>
       <Position>6</Position>
       <DataType>bit(1)|0</DataType>
     </column>
-    <index id="28" parent="10" name="ID">
+    <column id="28" parent="10" name="centeric">
+      <Position>7</Position>
+      <DataType>bit(1)|0</DataType>
+    </column>
+    <column id="29" parent="10" name="buses_count">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="30" parent="10" name="ID">
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="29" parent="10" name="name">
+    <index id="31" parent="10" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="30" parent="10" name="PRIMARY">
+    <key id="32" parent="10" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="31" parent="10" name="ID">
+    <key id="33" parent="10" name="ID">
       <ColNames>ID</ColNames>
       <UnderlyingIndexName>ID</UnderlyingIndexName>
     </key>
-    <key id="32" parent="10" name="name">
+    <key id="34" parent="10" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
