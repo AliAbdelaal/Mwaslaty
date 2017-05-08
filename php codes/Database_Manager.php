@@ -150,7 +150,15 @@ class Database_Manager
     {
         $associate_stations = $bus->getAssociateStations();
         $centric_stations = $this->get_centric_stations();
-        $intersect = array_intersect($associate_stations, $centric_stations);
+        //we must compare the stations names
+        $associate_stations_strings = array();
+        $centric_stations_strings = array();
+        foreach ($associate_stations as $station)
+            array_push($associate_stations_strings,$station->getName());
+        foreach ($centric_stations as $station)
+            array_push($centric_stations_strings,$station->getName());
+
+        $intersect = array_intersect($associate_stations_strings, $centric_stations_strings);
         if($intersect)
             return TRUE ;
         else
