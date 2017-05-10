@@ -59,11 +59,18 @@ if ($conn->connect_error) {
 echo nl2br("Connected successfully \n");
 $manager = new Database_Manager($conn);
 
-$bus = $manager->get_bus(2);
+$bus = $manager->get_bus(110);
 
 
-if($manager->pass_by_center($bus))
+if($stations = $manager->pass_by_center($bus))
+{
     echo nl2br("pass by center\n");
+    foreach ($stations as $station)
+    {
+        print_station($station);
+    }
+}
+
 else
     echo nl2br("doesn't pass\n");
 

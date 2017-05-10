@@ -154,9 +154,9 @@ class Database_Manager
         $associate_stations_strings = array();
         $centric_stations_strings = array();
         foreach ($associate_stations as $station)
-            array_push($associate_stations_strings,$station->getName());
+            array_push($associate_stations_strings,$station->getID());
         foreach ($centric_stations as $station)
-            array_push($centric_stations_strings,$station->getName());
+            array_push($centric_stations_strings,$station->getID());
 
         $intersect = array_intersect($associate_stations_strings, $centric_stations_strings);
         if($intersect)
