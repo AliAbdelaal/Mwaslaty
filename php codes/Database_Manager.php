@@ -160,7 +160,11 @@ class Database_Manager
 
         $intersect = array_intersect($associate_stations_strings, $centric_stations_strings);
         if($intersect)
-            return TRUE ;
+            {$stations=array();
+            foreach ($intersect as $station_id){
+                array_push($stations,$this->get_station($station_id));
+            }
+            return $stations;}
         else
             return FALSE;
     }
