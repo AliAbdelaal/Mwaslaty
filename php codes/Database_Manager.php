@@ -73,7 +73,6 @@ class Database_Manager
                 $station->setBus($value['bus']);
                 $station->setCentric($value['centric']);
                 $station->setBusCount($value['buses_count']);
-
                 return $station;
             }
         }

@@ -16,7 +16,6 @@ class Station
     private $centric = NULL ;
     private $bus_count = NULL ;
     private $id = NULL;
-
     /**
      * @return null
      */
@@ -34,6 +33,21 @@ class Station
         $this->centric = $centric == 1? TRUE : FALSE;
     }
 
+    /**
+     * @param null $metero_cost
+     */
+    public function setMeteroCost($metero_cost)
+    {
+        $this->metero_cost = $metero_cost;
+    }
+
+    /**
+     * @return null
+     */
+    public function getMeteroCost()
+    {
+        return $this->metero_cost;
+    }
 
 
     /**
