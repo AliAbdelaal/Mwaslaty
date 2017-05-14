@@ -15,7 +15,7 @@ require("Go.php");
 
 $servername = "localhost";
 $username = "root";
-$password = "DLegend2";
+$password = "password";
 $database = "Mwaslaty";
 
 
@@ -62,7 +62,7 @@ function print_bus($bus)
 
 $calculate = new Go($conn);
 
-$calculate->setSource(1);
+$calculate->setSource(1 );
 $calculate->setDestination(217);
 print_r($calculate->best_cost_road());
 print_r($calculate->road());

@@ -5,10 +5,10 @@ header("Content-Type: application/json;charset=utf-8");
 
 require("Go.php");
 
-$servername = "sql103.byethost32.com";
-$username = "username";
+$servername = "local";
+$username = "root";
 $password = "password";
-$database = "b32_19961133_content";
+$database = "Mwaslaty";
 
 
 // Create connection
@@ -49,10 +49,10 @@ function make_json_road($path)
 $source = $_GET["SID"];
 $dist = $_GET["DID"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $source = $_POST["SID"];
-    $dist = $_POST["DID"];
-}
+//if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//    $source = $_POST["SID"];
+//    $dist = $_POST["DID"];
+//}
 $calculate = new Go($conn);
 
 $calculate->setSource($source);
@@ -63,4 +63,4 @@ $road = $calculate->road();
 print_r($best_road);
 print_r($road);
 
-echo(json_encode(make_json_road($best_road), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+//echo(json_encode(make_json_road($best_road), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
