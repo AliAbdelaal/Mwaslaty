@@ -159,7 +159,7 @@ class Database_Manager
 
         $intersect = array_intersect($associate_stations_strings, $centric_stations_strings);
         if($intersect)
-            {$stations=array();
+        {$stations=array();
             foreach ($intersect as $station_id){
                 array_push($stations,$this->get_station($station_id));
             }

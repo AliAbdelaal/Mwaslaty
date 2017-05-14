@@ -6,42 +6,16 @@
  * Time: 4:29 AM
  */
 
-require("Database_Manager.php");
+require("Go.php");
 
 /**
  * @param $station Station
  */
-function print_station($station)
-{
-    echo 'Station : '.$station->getName();
-    echo nl2br("\n");
-    echo 'ID = '.$station->getId();
-    echo ',longitude'.$station->getLongitude();
-    echo ',latitude'.$station->getLatitude();
-    echo ',metro='.($station->getMetro()==TRUE?'yes':'no');
-    echo ',bus='.($station->getBus()==TRUE?'yes':'no');
-    echo nl2br("\n");
-
-}
-
-/**
- * @param $bus Bus
- */
-function print_bus($bus)
-{
-    echo 'Bus : '.$bus->getName();
-    echo nl2br("\n");
-    echo 'ID = '.$bus->getId();
-    echo ', cost = '.$bus->getCost();
-    echo nl2br("\n");
-
-
-}
 
 
 $servername = "localhost";
-$username = "username";
-$password = "password";
+$username = "root";
+$password = "DLegend2";
 $database = "Mwaslaty";
 
 
@@ -57,24 +31,40 @@ if ($conn->connect_error) {
 
 
 echo nl2br("Connected successfully \n");
-$manager = new Database_Manager($conn);
 
-$bus = $manager->get_bus(110);
-
-
-if($stations = $manager->pass_by_center($bus))
+function print_station($station)
 {
-    echo nl2br("pass by center\n");
-    foreach ($stations as $station)
-    {
-        print_station($station);
-    }
+    echo 'Station : '.$station->getName();
+    echo nl2br("\n");
+    echo 'ID = '.$station->getId();
+    echo ',longitude'.$station->getLongitude();
+    echo ',latitude'.$station->getLatitude();
+    echo ',metro='.($station->getMetro()==TRUE?'yes':'no');
+    echo ',bus='.($station->getBus()==TRUE?'yes':'no');
+    echo nl2br("\n");
+
 }
 
-else
-    echo nl2br("doesn't pass\n");
+/**
+ * @param $bus Bus*/
+
+function print_bus($bus)
+{
+    echo 'Bus : '.$bus->getName();
+    echo nl2br("\n");
+    echo 'ID = '.$bus->getId();
+    echo ', cost = '.$bus->getCost();
+    echo nl2br("\n");
 
 
+}
+
+$calculate=new Go($conn);
+
+$calculate->setSource(1);
+$calculate->setDestination(217);
+print_r($calculate->best_cost_road());
+print_r($calculate->road());
 
 
 
