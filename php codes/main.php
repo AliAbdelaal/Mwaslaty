@@ -15,14 +15,14 @@ require("Go.php");
 
 $servername = "localhost";
 $username = "root";
-$password = "DLegend2";
+$password = "password";
 $database = "Mwaslaty";
 
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
-$sSQL= 'SET CHARACTER SET utf8';
-$conn->query($sSQL);
+$sql= 'SET CHARACTER SET utf8';
+$conn->query($sql);
 
 // Check connection
 if ($conn->connect_error) {
