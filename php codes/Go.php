@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: mogady
  * Date: 10/05/17
- * Time: 10:06 ص
+ * Time: 10:06 ?
  */
 require "calculation.php";
 
@@ -39,12 +39,10 @@ class Go
                 if (get_class($element) == "Station") {
                     $station = array();
                     $type = "Station";
-                    $name = $element->getName();
-                    $longitude = $element->getLongitude();
-                    $latitude = $element->getLatitude();
+                    $ID = $element->getId();
                     $metro = $element->getMetro();
                     $bus = $element->getBus();
-                    array_push($station, $type, $name, $longitude, $latitude, $metro, $bus);
+                    array_push($station, $type, $ID, $metro, $bus);
                     array_push($this->parsed_road, $station);
                 } elseif (get_class($element) == "Bus") {
                     $bus = array();
@@ -72,14 +70,14 @@ class Go
      */
     public function road()
     {   //if source and destination is metro stations
-        if ((($this->calculate->getSource())->getMetro()) && (($this->calculate->getDestination())->getMetro())) {
+        if (($this->calculate->getSource()->getMetro()) && ($this->calculate->getDestination()->getMetro())) {
             $road = $this->calculate->Metro_road();
             if ($road) {
                 array_push($road, $this->calculate->calculate_cost($road));
             }
             return ($this->parse_road($road));
         } //if source is not metro and destination is metro
-        elseif (!(($this->calculate->getSource())->getMetro()) && (($this->calculate->getDestination())->getMetro())) {
+        elseif (!($this->calculate->getSource()->getMetro()) && ($this->calculate->getDestination()->getMetro())) {
 
             $road = $this->calculate->bus_metro_road();
             if ($road) {
@@ -87,7 +85,7 @@ class Go
             }
             return ($this->parse_road($road));
         } //if source is metro and destination is not
-        elseif ((($this->calculate->getSource())->getMetro()) && !(($this->calculate->getDestination())->getMetro())) {
+        elseif (($this->calculate->getSource()->getMetro()) && !($this->calculate->getDestination()->getMetro())) {
             $road = $this->calculate->metro_bus_road();
             if ($road) {
                 array_push($road, $this->calculate->calculate_cost($road));
@@ -114,7 +112,7 @@ class Go
         $roads = array();
         $fcost = 20;//initial value 20
         //if two station are metro get all possible roads
-        if (($this->calculate->getSource())->getMetro() && ($this->calculate->getDestination())->getMetro()) {
+        if ($this->calculate->getSource()->getMetro() && $this->calculate->getDestination()->getMetro()) {
 
             $road1 = $this->calculate->Metro_road();
             $road2 = $this->calculate->bus_metro_road();

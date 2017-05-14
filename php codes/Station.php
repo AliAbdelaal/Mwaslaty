@@ -13,9 +13,10 @@ class Station
     private $latitude = NULL;
     private $metro = NULL;
     private $bus = NULL;
-    private $centric = NULL ;
-    private $bus_count = NULL ;
+    private $centric = NULL;
+    private $bus_count = NULL;
     private $id = NULL;
+
     /**
      * @return null
      */
@@ -30,7 +31,7 @@ class Station
      */
     public function setCentric($centric)
     {
-        $this->centric = $centric == 1? TRUE : FALSE;
+        $this->centric = $centric == 1 ? TRUE : FALSE;
     }
 
     /**
@@ -128,7 +129,7 @@ class Station
      */
     public function setMetro($metro)
     {
-        $this->metro = $metro==1? TRUE : FALSE;
+        $this->metro = $metro == 1 ? TRUE : FALSE;
     }
 
     /**
@@ -144,7 +145,7 @@ class Station
      */
     public function setBus($bus)
     {
-        $this->bus = $bus==1? TRUE : FALSE;
+        $this->bus = $bus == 1 ? TRUE : FALSE;
     }
 
 
@@ -166,15 +167,14 @@ class Station
 
     public function checkValid()
     {
-        if($this->name==NULL || $this->longitude == NULL || $this->latitude == NULL
+        if ($this->name == NULL || $this->longitude == NULL || $this->latitude == NULL
             || $this->metro == NULL || $this->bus == NULL || $this->bus_count == NULL
-            || $this->centric == NULL)
-        {
-            return FALSE ;
+            || $this->centric == NULL
+        ) {
+            return FALSE;
         }
-        return TRUE ;
+        return TRUE;
     }
-
 
 
 }

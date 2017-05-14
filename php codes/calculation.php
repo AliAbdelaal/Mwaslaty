@@ -1,12 +1,14 @@
 <?php
 
 /**
+ *
  * Created by PhpStorm.
  * User: mogady
  * Date: 06/05/17
- * Time: 06:38 م
+ * Time: 06:38 ?
  */
 require("Database_Manager.php");
+
 class calculation
 {
     private $Source = NULL;
@@ -52,30 +54,32 @@ class calculation
     {
         return $this->Destination;
     }
+
     /*
      * function to calculate cost for any road
      */
-    public function calculate_cost($road){
-        $metro=0;
-        $cost=0;
-        $numM=0;
+    public function calculate_cost($road)
+    {
+        $metro = 0;
+        $cost = 0;
+        $numM = 0;
         //if the road is not null
-        if($road){
+        if ($road) {
             //loop for each elment in thr road(bus or station)
             foreach ($road as $element) {
 
                 if (get_class($element) == "Station") {
                     //if this is a station check if it is metero or not to add metro value
                     if ($element->getMetro()) {
-                        $numM=$numM+1;
-                        if($numM==2&&!$metro){
+                        $numM = $numM + 1;
+                        if ($numM == 2 && !$metro) {
                             $cost = $cost + $this->Meter_cost;
                             //to stop adding values if there is more than one metero station
-                            $metro = TRUE;}
+                            $metro = TRUE;
+                        }
                     }
 
-                }
-                elseif (get_class($element) == "Bus") {
+                } elseif (get_class($element) == "Bus") {
                     //if this is a abus add bus value to old cost
                     $cost = $cost + $element->getCost();
 
@@ -93,13 +97,14 @@ class calculation
     /*
      * used to determine if there is only one bus between the two stations
      */
-    private function is_there_Bus($source_buses,$destination_buses){
+    private function is_there_Bus($source_buses, $destination_buses)
+    {
         //loop for every source bus
-        foreach ($source_buses as $Sbus){
+        foreach ($source_buses as $Sbus) {
             //loop for every destination bus
-            foreach ($destination_buses as $Dbus){
+            foreach ($destination_buses as $Dbus) {
                 //determine if ther is two buses have the same id
-                if ($Sbus->getId()==$Dbus->getId()){
+                if ($Sbus->getId() == $Dbus->getId()) {
                     return $Dbus;
                 }
 
@@ -109,55 +114,56 @@ class calculation
 
 
     }
+
     /*
      * used when ther is no bus in the source station pass a center
      */
-    private function there_is_NoCenter($buses){
+    private function there_is_NoCenter($buses)
+    {
         //loop for every bus in the buses
-        foreach ($buses as $bus){
+        foreach ($buses as $bus) {
             // get all stations for every bus
-            $stations=$bus->getAssociateStations();
+            $stations = $bus->getAssociateStations();
             //loop for every station
-            foreach ($stations as $station){
-                if($station->getMetro()){
+            foreach ($stations as $station) {
+                if ($station->getMetro()) {
                     //if this station is metro station return the bus and the metro station
-                    return array($bus,$station);
+                    return array($bus, $station);
                 }
                 //else : the station is not a metro station
                 // get all buses pass in this station
-                $Sbuses=$this->DatabaseM->get_associate_buses($station);
+                $Sbuses = $this->DatabaseM->get_associate_buses($station);
                 //loop for every bus
-                foreach ($Sbuses as $sbus){
+                foreach ($Sbuses as $sbus) {
                     //fetermine if there is a bus pass a metero center
-                    $Mcenter=$this->get_Metro_center($sbus);
+                    $Mcenter = $this->get_Metro_center($sbus);
                     //if there is one center
-                    if($Mcenter){
-                        return array($bus,$station,$sbus,$Mcenter);
+                    if ($Mcenter) {
+                        return array($bus, $station, $sbus, $Mcenter);
                     }
                 }
             }
         }
 
     }
+
     /*
      * used to detrmine the nearest metro center for a bus
      */
     private function get_Metro_center($bus)
     {
         //get all the center stations passed by this bus
-        $stations = ($this->DatabaseM)->pass_by_center($bus);
+        $stations = $this->DatabaseM->pass_by_center($bus);
         //there is no center station passed by this bus
         if (!$stations) {
             return NULL;
-        }
-        else {
+        } else {
             //loop for every center station if there is more than one
             foreach ($stations as $station) {
                 //for every station determine if it is a metro or not
                 if ($station->getMetro()) {
                     return $station;
-                }
-                //there is no metro center the bus pass it
+                } //there is no metro center the bus pass it
                 else return NULL;
 
             }
@@ -165,6 +171,7 @@ class calculation
 
 
     }
+
     /*
      * used to determine the nearest non metro center for array of buses
      */
@@ -172,7 +179,7 @@ class calculation
     {//loop for every bus
         foreach ($buses as $bus) {
             //determine the centers that the bus pass it
-            $centers = ($this->DatabaseM)->pass_by_center($bus);
+            $centers = $this->DatabaseM->pass_by_center($bus);
             //if there is a center
             if ($centers) {
                 //loop for each center if there is more than one
@@ -210,14 +217,16 @@ class calculation
      */
     public function bus_metro_road()
     {   //check if the source is not a metro
-        if(($this->Destination)->getMetro()){
+        if ($this->Destination->getMetro()) {
             //get all the source buses and destination buses
-            $Source_buses = ($this->DatabaseM)->get_associate_buses(($this->Source));
-            $Destination_buses = ($this->DatabaseM)->get_associate_buses(($this->Destination));
+            $Source_buses = $this->DatabaseM->get_associate_buses(($this->Source));
+            $Destination_buses = $this->DatabaseM->get_associate_buses(($this->Destination));
             //check first if there is a one bus from that station arrive to destination
-            $Obus=$this->is_there_Bus($Source_buses,$Destination_buses);
+            $Obus = $this->is_there_Bus($Source_buses, $Destination_buses);
             //if there is bus return that bus
-            if($Obus){return array($Obus);}
+            if ($Obus) {
+                return array($Obus);
+            }
             //else :
             //loop for every source bus
             foreach ($Source_buses as $bus) {
@@ -231,21 +240,20 @@ class calculation
             }
             //else:there is no metro center for all source buses
             //get the road to the nearest non metro center
-            $road=$this->nearest_center($Source_buses);
+            $road = $this->nearest_center($Source_buses);
             //if there is one
-            if($road){
-                array_push($road,$this->getDestination());
-                return $road;}
-            //there is no nearest non metro centers
+            if ($road) {
+                array_push($road, $this->getDestination());
+                return $road;
+            } //there is no nearest non metro centers
             else {
                 //get the road to the nearest station that reach metro center
-                $road=$this->there_is_NoCenter($Source_buses);
+                $road = $this->there_is_NoCenter($Source_buses);
                 //there is one
-                if($road){
-                    array_push($road,$this->getDestination());
+                if ($road) {
+                    array_push($road, $this->getDestination());
                     return $road;
                 }
-
 
 
             }
@@ -261,10 +269,9 @@ class calculation
      */
     public function metro_bus_road()
     {   //check if the source is metro
-        if($this->getSource()->getMetro())
-        {//determine the source buses and destination buses
-            $Source_buses = ($this->DatabaseM)->get_associate_buses(($this->Source));
-            $Destination_buses = ($this->DatabaseM)->get_associate_buses(($this->Destination));
+        if ($this->getSource()->getMetro()) {//determine the source buses and destination buses
+            $Source_buses = $this->DatabaseM->get_associate_buses(($this->Source));
+            $Destination_buses = $this->DatabaseM->get_associate_buses(($this->Destination));
             //check if there is one bus to reach the destination
             $Obus = $this->is_there_Bus($Source_buses, $Destination_buses);
             if ($Obus) {
@@ -291,8 +298,7 @@ class calculation
                     array_push($road, $arr);
                 }
                 return $road;
-            }
-            //else : there is no nearest non metro center
+            } //else : there is no nearest non metro center
             else {
                 $road = array();
                 //check the nearest station that reaches a metro center
@@ -316,20 +322,22 @@ class calculation
      */
     public function bus_bus_road()
     {   //first determine the source buses and destination buses
-        $source_buses = ($this->DatabaseM)->get_associate_buses(($this->Source));
-        $destination_buses = ($this->DatabaseM)->get_associate_buses(($this->Destination));
+        $source_buses = $this->DatabaseM->get_associate_buses(($this->Source));
+        $destination_buses = $this->DatabaseM->get_associate_buses(($this->Destination));
         //if there is one bus
-        $bus=$this->is_there_Bus($source_buses,$destination_buses);
-        if($bus){return array($bus);}
+        $bus = $this->is_there_Bus($source_buses, $destination_buses);
+        if ($bus) {
+            return array($bus);
+        }
         //else:search for the nearest center that have one bus to reach destination
-        foreach ($source_buses as $Sbus){
-            $centers = ($this->DatabaseM)->pass_by_center($Sbus);
-            if($centers){
+        foreach ($source_buses as $Sbus) {
+            $centers = $this->DatabaseM->pass_by_center($Sbus);
+            if ($centers) {
                 foreach ($centers as $center) {
                     $center_buses = $this->DatabaseM->get_associate_buses($center);
-                    $Obus=$this->is_there_Bus($center_buses,$destination_buses);
-                    if($Obus){
-                        $road=array($Sbus,$center,$Obus);
+                    $Obus = $this->is_there_Bus($center_buses, $destination_buses);
+                    if ($Obus) {
+                        $road = array($Sbus, $center, $Obus);
                         return $road;
                     }
                 }
@@ -337,15 +345,15 @@ class calculation
         }
 
         //else:search for the nearest metro stations that reaches between source and destination
-        foreach ($source_buses as $Sbus){
-            $SStations=$Sbus->getAssociateStations();
-            foreach ($SStations as $Sstation){
-                if($Sstation->getMetro()){
-                    foreach ($destination_buses as $Dbus){
-                        $DStations=$Dbus->getAssociateStations();
-                        foreach ($DStations as $Dstation){
-                            if($Dstation->getMetro()){
-                                $road=array($Sbus,$Sstation,$Dstation,$Dbus);
+        foreach ($source_buses as $Sbus) {
+            $SStations = $Sbus->getAssociateStations();
+            foreach ($SStations as $Sstation) {
+                if ($Sstation->getMetro()) {
+                    foreach ($destination_buses as $Dbus) {
+                        $DStations = $Dbus->getAssociateStations();
+                        foreach ($DStations as $Dstation) {
+                            if ($Dstation->getMetro()) {
+                                $road = array($Sbus, $Sstation, $Dstation, $Dbus);
                                 return $road;
                             }
 
@@ -353,7 +361,6 @@ class calculation
                         }
 
 
-
                     }
 
                 }
@@ -362,26 +369,29 @@ class calculation
             }
 
 
-
         }
         //loop for every bus in source buses
-        foreach ($source_buses as $Sbus){
-            $SStations=$Sbus->getAssociateStations();
+        foreach ($source_buses as $Sbus) {
+            $SStations = $Sbus->getAssociateStations();
             //loop for each station reached by this bus
-            foreach ($SStations as $station){
+            foreach ($SStations as $station) {
                 //check if there is common bus
-                $buses=$this->DatabaseM->get_associate_buses($station);
-                $bus=$this->is_there_Bus($buses,$destination_buses);
-                if($bus){return array($Sbus,$station,$bus);}
+                $buses = $this->DatabaseM->get_associate_buses($station);
+                $bus = $this->is_there_Bus($buses, $destination_buses);
+                if ($bus) {
+                    return array($Sbus, $station, $bus);
+                }
                 //else search for each center passed by this bus
-                foreach($buses as $bus){
-                    $centers=$this->DatabaseM->pass_by_center($bus);
-                    if($centers){
+                foreach ($buses as $bus) {
+                    $centers = $this->DatabaseM->pass_by_center($bus);
+                    if ($centers) {
                         //search for common bus in each center
-                        foreach ($centers as $center){
-                            $cbuses=$this->DatabaseM->get_associate_buses($center);
-                            $cbus=$this->is_there_Bus($cbuses,$destination_buses);
-                            if($cbus){return array($Sbus,$station,$bus,$center,$cbus);}
+                        foreach ($centers as $center) {
+                            $cbuses = $this->DatabaseM->get_associate_buses($center);
+                            $cbus = $this->is_there_Bus($cbuses, $destination_buses);
+                            if ($cbus) {
+                                return array($Sbus, $station, $bus, $center, $cbus);
+                            }
                         }
 
                     }
@@ -392,13 +402,8 @@ class calculation
             }
 
 
-
         }
         return NULL;
-
-
-
-
 
 
     }

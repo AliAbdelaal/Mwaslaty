@@ -7,11 +7,14 @@
  * Time: 10:44 ص
  */
 require "Database_Manager.php";
-class parsing
-{   private $DatabaseM=NULL;
 
-    public function __construct(){
-        $this->DatabaseM=new Database_Manager();
+class parsing
+{
+    private $DatabaseM = NULL;
+
+    public function __construct()
+    {
+        $this->DatabaseM = new Database_Manager();
 
 
     }
@@ -31,7 +34,6 @@ class parsing
     {
         return $this->parsed_road;
     }
-
 
 
 }
